@@ -1,0 +1,129 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 mb-0">Dashboard</h1>
+        <p class="text-muted mb-0">Fluxo demo: invoice → pagamento simulado → raspadinha → payout fake</p>
+    </div>
+    <span class="badge text-bg-warning">DEMO / Pix fake</span>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card shadow-sm metric-card">
+            <div class="card-body">
+                <div class="small-muted">Usuários</div>
+                <div class="display-6 fw-bold">{{ users_count }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm metric-card">
+            <div class="card-body">
+                <div class="small-muted">Invoices</div>
+                <div class="display-6 fw-bold">{{ invoices_count }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm metric-card">
+            <div class="card-body">
+                <div class="small-muted">Jogadas</div>
+                <div class="display-6 fw-bold">{{ plays_count }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm metric-card">
+            <div class="card-body">
+                <div class="small-muted">Payouts demo</div>
+                <div class="display-6 fw-bold">{{ payouts_count }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="small-muted">Pendentes</div>
+                <div class="h3 mb-0">{{ pending_invoices }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="small-muted">Pagas/usadas</div>
+                <div class="h3 mb-0">{{ paid_invoices }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="small-muted">Canceladas</div>
+                <div class="h3 mb-0">{{ canceled_invoices }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="small-muted">RTP atual</div>
+                <div class="h3 mb-0">{{ rtp }}%</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Resumo demo</h2>
+                <p class="mb-1">Total invoices: <strong>{{ "%.2f"|format(total_invoice_amount) }}</strong></p>
+                <p class="mb-1">Total prêmios: <strong>{{ "%.2f"|format(total_prize) }}</strong></p>
+                <p class="mb-1">Raspadinhas cadastradas: <strong>{{ cards_count }}</strong></p>
+                <p class="mb-0">Usuários bloqueados: <strong>{{ blocked_count }}</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Últimas invoices</h2>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuário</th>
+                            <th>Raspadinha</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                            <th>Data</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in recent_invoices %}
+                        <tr>
+                            <td>{{ i.id }}</td>
+                            <td>{{ i.user.username or i.user.telegram_id }}</td>
+                            <td>{{ i.scratch_card.name }}</td>
+                            <td>{{ i.amount }}</td>
+                            <td><span class="badge text-bg-light">{{ i.status }}</span></td>
+                            <td>{{ i.created_at.strftime("%d/%m/%Y %H:%M") }}</td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="6" class="text-muted">Nenhuma invoice ainda.</td></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

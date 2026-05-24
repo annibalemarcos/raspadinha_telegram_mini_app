@@ -1,0 +1,57 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<h1 class="h3 mb-3">Invoices Pix Demo</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover table-sm">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuário</th>
+                    <th>Raspadinha</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th>Chave Pix jogador</th>
+                    <th>Pix cobrança fake</th>
+                    <th>Pago em</th>
+                    <th>Pix confirmado em</th>
+                    <th>Criado em</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in invoices %}
+                <tr>
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.user.username or i.user.telegram_id }}</td>
+                    <td>{{ i.scratch_card.name }}</td>
+                    <td>{{ i.amount }}</td>
+                    <td>
+                        {% if i.status == "pending" %}
+                        <span class="badge text-bg-warning">pending</span>
+                        {% elif i.status == "paid" %}
+                        <span class="badge text-bg-success">paid</span>
+                        {% elif i.status == "pix_confirmed" %}
+                        <span class="badge text-bg-info">pix_confirmed</span>
+                        {% elif i.status == "played" %}
+                        <span class="badge text-bg-primary">played</span>
+                        {% else %}
+                        <span class="badge text-bg-secondary">{{ i.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ i.player_pix_key or "-" }}</td>
+                    <td class="hash-cell">{{ i.pix_code }}</td>
+                    <td>{{ i.paid_at.strftime("%d/%m/%Y %H:%M") if i.paid_at else "-" }}</td>
+                    <td>{{ i.pix_confirmed_at.strftime("%d/%m/%Y %H:%M") if i.pix_confirmed_at else "-" }}</td>
+                    <td>{{ i.created_at.strftime("%d/%m/%Y %H:%M") }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="10" class="text-muted">Nenhuma invoice ainda.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

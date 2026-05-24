@@ -1,0 +1,53 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<h1 class="h3 mb-3">Jogadas</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover table-sm">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Invoice</th>
+                    <th>Usuário</th>
+                    <th>Raspadinha</th>
+                    <th>Regra</th>
+                    <th>Custo</th>
+                    <th>Prêmio</th>
+                    <th>Símbolos</th>
+                    <th>Payout</th>
+                    <th>Hash</th>
+                    <th>Data</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for p in plays %}
+                <tr>
+                    <td>{{ p.id }}</td>
+                    <td>{{ p.invoice_id or "-" }}</td>
+                    <td>{{ p.user.username or p.user.telegram_id }}</td>
+                    <td>{{ p.scratch_card.name }}</td>
+                    <td>
+                        {% if p.match_count == 1 %}
+                        1 símbolo ganha
+                        {% else %}
+                        {{ p.match_count }} iguais ganha
+                        {% endif %}
+                    </td>
+                    <td>{{ p.cost }}</td>
+                    <td>{{ p.prize }}</td>
+                    <td>{{ p.symbols_json or "-" }}</td>
+                    <td><span class="badge text-bg-light">{{ p.payout_status }}</span></td>
+                    <td class="hash-cell">{{ p.result_hash }}</td>
+                    <td>{{ p.created_at.strftime("%d/%m/%Y %H:%M") }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="11" class="text-muted">Nada por aqui ainda.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<h1 class="h3 mb-3">Payouts Pix Demo</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover table-sm">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuário</th>
+                    <th>Jogada</th>
+                    <th>Valor</th>
+                    <th>Chave Pix fake</th>
+                    <th>Status</th>
+                    <th>Referência</th>
+                    <th>Data</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for p in payouts %}
+                <tr>
+                    <td>{{ p.id }}</td>
+                    <td>{{ p.user.username or p.user.telegram_id }}</td>
+                    <td>{{ p.scratch_play_id }}</td>
+                    <td>{{ p.amount }}</td>
+                    <td>{{ p.pix_key }}</td>
+                    <td><span class="badge text-bg-success">{{ p.status }}</span></td>
+                    <td class="hash-cell">{{ p.provider_reference }}</td>
+                    <td>{{ p.created_at.strftime("%d/%m/%Y %H:%M") }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="8" class="text-muted">Nenhum payout ainda.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

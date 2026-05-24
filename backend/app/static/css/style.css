@@ -1,0 +1,42 @@
+body {
+    background: #f8f9fa;
+}
+
+.navbar {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.card {
+    border: 0;
+    border-radius: 14px;
+}
+
+.btn {
+    border-radius: 10px;
+}
+
+.table {
+    vertical-align: middle;
+}
+
+.badge {
+    border-radius: 999px;
+}
+
+.metric-card {
+    min-height: 120px;
+}
+
+.small-muted {
+    color: #6c757d;
+    font-size: .875rem;
+}
+
+.hash-cell {
+    max-width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: monospace;
+    font-size: .8rem;
+}

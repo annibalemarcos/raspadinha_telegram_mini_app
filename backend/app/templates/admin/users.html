@@ -1,0 +1,55 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<h1 class="h3 mb-3">Usuários</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Telegram</th>
+                    <th>Username</th>
+                    <th>Nome</th>
+                    <th>Status</th>
+                    <th>Criado em</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for u in users %}
+                <tr>
+                    <td>{{ u.id }}</td>
+                    <td>{{ u.telegram_id }}</td>
+                    <td>{{ u.username or "-" }}</td>
+                    <td>{{ u.first_name or "-" }}</td>
+                    <td>
+                        {% if u.status == "active" %}
+                        <span class="badge text-bg-success">ativo</span>
+                        {% else %}
+                        <span class="badge text-bg-danger">bloqueado</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ u.created_at.strftime("%d/%m/%Y %H:%M") }}</td>
+                    <td>
+                        {% if u.status == "active" %}
+                        <form action="/admin/users/{{ u.id }}/block" method="post">
+                            <button class="btn btn-sm btn-outline-danger">Bloquear</button>
+                        </form>
+                        {% else %}
+                        <form action="/admin/users/{{ u.id }}/unblock" method="post">
+                            <button class="btn btn-sm btn-outline-success">Desbloquear</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="7" class="text-muted">Nenhum usuário ainda. Rode o bot e use /start.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+
+
+
+backend/app/static/uploads/covers/*
+!backend/app/static/uploads/covers/.gitkeep
+
+.DS_Store
+Thumbs.db
